@@ -75,8 +75,11 @@ class Board
     new_board = Board.new
     (0...SIZE).each do |row|
       (0...SIZE).each do |col|
-        item = @grid[row][col]
-        new_board.add_piece(item.dup, [row,col]) if item
+        previous_content = @grid[row][col]
+        next if previous_content.nil?
+        new_piece = previous_content.dup
+        new_piece.board = new_board
+        new_board.add_piece(new_piece, [row,col])
       end
     end
 

@@ -1,3 +1,5 @@
+require_relative 'board'
+
 class InvalidMoveError < StandardError
 end
 
@@ -43,19 +45,21 @@ class Piece
   def perform_slide(new_coords)
     if !(Board.on_board?(new_coords))
       raise InvalidMoveError.new("Slid off the board")
-    elsif !(board.empty_square?(new_coords))
-      raise InvalidMoveError.new("Slid onto a piece")
+    elsif !(@board.empty_square?(new_coords))
+      test = "#{coords.to_s} to #{new_coords.to_s}"
+      test += @board.get_piece(new_coords).class.to_s
+      puts @board.display
+      raise InvalidMoveError.new("Slid onto a piece" + test)
     elsif !(slides.include?(new_coords))
       raise InvalidMoveError.new("Slid to an invalid location")
     end
-
     @board.add_piece(@board.remove_piece(coords), new_coords)
   end
 
   def perform_jump(new_coords)
     if !(Board.on_board?(new_coords))
       raise InvalidMoveError.new("Jumped off the board")
-    elsif !(board.empty_square?(new_coords))
+    elsif !(@board.empty_square?(new_coords))
       raise InvalidMoveError.new("Jumped onto a piece")
     elsif !(jumps.include?(new_coords))
       raise InvalidMoveError.new("Jumped to an invalid location")
