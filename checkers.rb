@@ -41,16 +41,25 @@ class Checkers
       move_sequence = player.attempt_move.map do |pos|
         Board.pos_to_coords(pos)
       end
-      
-      if valid_move_seq?(move_sequence)
-        @board.get_piece(move_sequence.shift).perform_moves!(move_sequence)
+
+      if valid_move_seq?(player, move_sequence)
+        @board.get_piece(move_sequence.first).perform_moves!(move_sequence[1..-1])
         break
       end
     end
   end
 
-  def valid_move_seq?(move_sequence)
-    debugger
+  def valid_piece?(player, coords)
+    piece = @board.get_piece(coords)
+    if piece.nil? || piece.color != player.color
+      puts "Invalid piece"
+      return false
+    end
+    true
+  end
+
+  def valid_move_seq?(player, move_sequence)
+    return false if !valid_piece?(player, move_sequence.first)
     begin
       board_copy = @board.dup
       piece = board_copy.get_piece(move_sequence.first)

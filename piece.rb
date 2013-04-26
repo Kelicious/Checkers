@@ -24,10 +24,11 @@ class Piece
 
   def perform_moves!(move_sequence)
     if !(move_sequence.is_a?(Array)) || !(move_sequence.first.is_a?(Array))
-      raise ArgumentError.new("Invalid move sequence")
+      raise ArgumentError.new("Invalid move sequence format")
     end
 
     if Board.half_point(coords, move_sequence.first)
+      puts Board.half_point(coords, move_sequence.first)
       while new_coords = move_sequence.shift
         perform_jump(new_coords)
       end
