@@ -17,13 +17,23 @@ class Checkers
   end
 
   def end_game
-    puts "Placeholder"
+    winner = ""
+    case @board.winner_color
+    when :w
+      winner = "White"
+    when :b
+      winner = "Black"
+    else
+      winner = "No"
+    end
+
+    puts "#{winner} player wins!"
   end
 
   def play
     greeting
 
-    while true
+    until @board.game_over?
       [@w, @b].each do |player|
         play_turn(player)
       end
@@ -67,7 +77,6 @@ class Checkers
       true
     rescue StandardError => e
       puts "#{e.class}: #{e.message}"
-      puts e.backtrace
       false
     end
   end

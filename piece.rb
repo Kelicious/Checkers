@@ -16,8 +16,9 @@ class Piece
     result = "#{@color.to_s.upcase}#{king? ? "K":""}"
   end
 
-  def promote
-    @king = true
+  def check_promotion!
+    promotion_row = @color == :w ? 0 : Board::SIZE - 1
+    @king = true if cur_row == promotion_row
   end
   
   alias_method :king?, :king
@@ -28,13 +29,14 @@ class Piece
     end
 
     if Board.half_point(coords, move_sequence.first)
-      puts Board.half_point(coords, move_sequence.first)
       while new_coords = move_sequence.shift
         perform_jump(new_coords)
       end
     else
       perform_slide(move_sequence.first)
     end
+
+    check_promotion!
   end
 
   def dup
@@ -47,10 +49,7 @@ class Piece
     if !(Board.on_board?(new_coords))
       raise InvalidMoveError.new("Slid off the board")
     elsif !(@board.empty_square?(new_coords))
-      test = "#{coords.to_s} to #{new_coords.to_s}"
-      test += @board.get_piece(new_coords).class.to_s
-      puts @board.display
-      raise InvalidMoveError.new("Slid onto a piece" + test)
+      raise InvalidMoveError.new("Slid onto a piece")
     elsif !(slides.include?(new_coords))
       raise InvalidMoveError.new("Slid to an invalid location")
     end

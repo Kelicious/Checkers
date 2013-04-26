@@ -27,7 +27,6 @@ class Board
     diffs = new_coords.zip(old_coords).map {|new, old| new - old}
     if (diffs.any? {|diff| diff % 2 != 0})
       return nil
-      #raise ArgumentError.new("No halfway point available")
     end
 
     old_coords.zip(diffs).map {|old, diff| old + diff / 2}
@@ -43,6 +42,25 @@ class Board
     result = [first_row]
     SIZE.times {|i| result << display_row(i)}
     puts result
+  end
+
+  def pieces_by_color(color)
+    @grid.flatten.select {|square| square.is_a?(Piece)}.select do |piece|
+      piece.color == color
+    end
+  end
+
+  def game_over?
+    return winner_color ? true : false
+  end
+
+  # only picks winner if enemy has no pieces
+  # don't know how to implement the other win condition yet...
+  def winner_color
+    [[:w, :b], [:b, :w]].each do |color, o_color|
+      return color if pieces_by_color(o_color).empty?
+    end
+    nil
   end
 
   def add_piece(piece, coords)
