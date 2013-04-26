@@ -73,6 +73,7 @@ class Board
   
   def dup
     new_board = Board.new
+    new_board.clear!
     (0...SIZE).each do |row|
       (0...SIZE).each do |col|
         previous_content = @grid[row][col]
@@ -84,6 +85,10 @@ class Board
     end
 
     new_board
+  end
+
+  def clear!
+    @grid = Array.new(8) {Array.new(8, nil)}
   end
 
   private
