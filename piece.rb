@@ -12,6 +12,7 @@ class Piece
     @king = king
   end
 
+# REV: Doesn't this representation of king units break your board display?
   def rep
     result = "#{@color.to_s.upcase}#{king? ? "K":""}"
   end
@@ -55,6 +56,11 @@ class Piece
     end
     @board.add_piece(@board.remove_piece(coords), new_coords)
   end
+
+# REV: Really like all these InvalidMoveErrors. I've been keeping their use as minimum
+# REV: as possible owing to the course material about not looking for nails to hammer,
+# REV: but I see that using errors like this lets the user have a lot more freedom compared
+# REV: to my hard "invalid move" rejection.
 
   def perform_jump(new_coords)
     if !(Board.on_board?(new_coords))

@@ -1,6 +1,8 @@
 require_relative 'piece'
 
 class Board
+# REV: You've gone and defined SIZE, so let's use it for every time you need to
+# REV: refer to the board length. See #self.coords_to_pos and #initialize
   SIZE = 8
 
   def self.on_board?(coords)
@@ -88,7 +90,10 @@ class Board
   def empty_square?(coords)
     get_piece(coords).nil?
   end
-  
+
+# REV: I guess this is one way to make a dup of the board. I had my
+# REV: board keep track of my pieces too, so a simple self.dup was 
+# REV: enough.
   def dup
     new_board = Board.new
     new_board.clear!
