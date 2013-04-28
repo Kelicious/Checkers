@@ -50,6 +50,7 @@ class Board
     end
   end
 
+  #REV: Does this work without the return?
   def game_over?
     return winner_color ? true : false
   end
@@ -76,10 +77,12 @@ class Board
     old_content
   end
 
+  #REV Leftovers?
   def piece_at(pos)
     
   end
   
+  # REV Why do you reassign coords here? You're only using them once
   def get_piece(coords)
     row, col = coords
     @grid[row][col]
@@ -89,6 +92,8 @@ class Board
     get_piece(coords).nil?
   end
   
+  # REV: So we clear the board and then get items from the board? 
+  # REV REV: Just figured out we got them from the old board.
   def dup
     new_board = Board.new
     new_board.clear!

@@ -1,3 +1,5 @@
+
+# REV Why do we bother writing these 10 line classes?
 class Player
   attr_accessor :color
 

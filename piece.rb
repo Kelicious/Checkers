@@ -21,6 +21,7 @@ class Piece
     @king = true if cur_row == promotion_row
   end
   
+  # REV: Should this go with the attr stuff up top?
   alias_method :king?, :king
 
   def perform_moves!(move_sequence)
@@ -56,6 +57,7 @@ class Piece
     @board.add_piece(@board.remove_piece(coords), new_coords)
   end
 
+  #REV all this error checking gets a little dense, could it be moved into its own method?
   def perform_jump(new_coords)
     if !(Board.on_board?(new_coords))
       raise InvalidMoveError.new("Jumped off the board")
